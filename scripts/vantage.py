@@ -1,6 +1,6 @@
 import requests
 import pandas as pd
-from constituents import get_spy as get_constituents
+from utility import read_constituents as get_tickers
 from typing import List
 
 # # replace the "demo" apikey below with your own key from https://www.alphavantage.co/support/#api-key
@@ -9,12 +9,6 @@ from typing import List
 # data = r.json()
 
 # print(pd.DataFrame(data["most_actively_traded"]))
-
-
-def get_tickers(limit: int = 100) -> List[str]:
-    df = get_constituents(limit)
-
-    return list(df.Symbol)
 
 
 # Create a function to fetch cash flow data for a given symbol
