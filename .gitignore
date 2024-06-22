@@ -35,6 +35,7 @@ airflow/
 .pyvenv.cfg
 .venv
 venv
+.env
 
 # Mac OS
 .DS_Store
