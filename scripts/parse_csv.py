@@ -33,6 +33,6 @@ def load_csv_to_sql(csv_file_path, table_name, mode="replace"):
 
 
 load_csv_to_sql("summary_detail.csv", "summary_detail", mode="replace")
-# load_csv_to_sql("prices.csv", "ticker_price")
-# load_csv_to_sql("sentiments.csv", "sentiments")
+load_csv_to_sql("prices.csv", "ticker_price")
+load_csv_to_sql("sentiments.csv", "sentiments")
 load_csv_to_sql("../notebooks/data/cash_flow_data.csv", "cash_flow")
