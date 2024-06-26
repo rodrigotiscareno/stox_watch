@@ -22,3 +22,4 @@ def load_csv_to_sql(csv_file_path, table_name):
 
 
 load_csv_to_sql("prices.csv", "ticker_price")
+load_csv_to_sql("sentiments.csv", "sentiments")
