@@ -2,7 +2,8 @@ import yfinance as yf
 import pandas as pd
 from typing import List
 from utility import read_constituents as get_tickers
-from parse_csv import load_csv_to_sql
+from parse_csv import load_df_to_sql
+from datetime import datetime
 
 
 def fetch_prices(tickers: List[str], period: str) -> pd.DataFrame:
@@ -18,9 +19,13 @@ def fetch_prices(tickers: List[str], period: str) -> pd.DataFrame:
     return result
 
 
-if __name__ == "__main__":
+def main():
     tickers = get_tickers()
     period = "5y"
     prices_df = fetch_prices(tickers, period)
-    prices_df.to_csv("prices.csv", index=False)
-    load_csv_to_sql("prices.csv", "ticker_price")
+    prices_df["updated_on"] = datetime.now()
+    load_df_to_sql(prices_df, "ticker_price")
+
+
+if __name__ == "__main__":
+    main()

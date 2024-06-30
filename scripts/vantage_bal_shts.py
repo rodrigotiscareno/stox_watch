@@ -1,7 +1,22 @@
 import requests
 import pandas as pd
 from utility import read_constituents as get_tickers
-from parse_csv import load_csv_to_sql
+import os
+from dotenv import load_dotenv
+from sqlalchemy import create_engine
+from datetime import datetime
+
+load_dotenv()
+
+username = os.getenv("DB_USER")
+password = os.getenv("DB_PASSWORD")
+host = os.getenv("DB_HOST")
+database = os.getenv("DB_NAME")
+port = "3306"
+
+engine = create_engine(
+    f"mysql+pymysql://{username}:{password}@{host}:{port}/{database}"
+)
 
 api_key = "9NLUTD6I2QZTR2BZ"
 
@@ -32,10 +47,9 @@ def fetch_and_save_bal_sht():
     df = pd.DataFrame(all_cleaned_data)
     df.columns = annual_rep_headers
 
-    csv_file = "bal_shts_data.csv"
-    df.to_csv(csv_file, index=False)
+    df["updated_time"] = datetime.now()
 
-    load_csv_to_sql("bal_shts_data.csv", "bal_shts")
+    df.to_sql("bal_shts", con=engine, index=False, if_exists="replace")
 
 
 if __name__ == "__main__":

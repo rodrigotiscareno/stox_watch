@@ -34,3 +34,21 @@ def load_csv_to_sql(csv_file_path, table_name, mode="replace"):
 
 if __name__ == "__main__":
     load_csv_to_sql("summary_detail.csv", "summary_detail", mode="replace")
+
+
+def load_df_to_sql(df: pd.DataFrame, table_name: str, mode="replace"):
+    username = os.getenv("DB_USER")
+    password = os.getenv("DB_PASSWORD")
+    host = os.getenv("DB_HOST")
+    database = os.getenv("DB_NAME")
+    port = "3306"
+
+    engine = create_engine(
+        f"mysql+pymysql://{username}:{password}@{host}:{port}/{database}"
+    )
+
+    df.to_sql(table_name, con=engine, index=False, if_exists=mode)
+
+
+if __name__ == "__main__":
+    load_csv_to_sql("summary_detail.csv", "summary_detail", mode="replace")

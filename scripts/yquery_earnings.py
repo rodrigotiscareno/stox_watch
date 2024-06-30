@@ -1,3 +1,4 @@
+from datetime import datetime
 from yahooquery import Ticker
 from utility import read_constituents as get_tickers
 import pandas as pd
@@ -31,10 +32,15 @@ def get_earnings(tickers):
         all_earnings.append(df)
 
     df = pd.concat(all_earnings)
+    df["updated_on"] = datetime.now()
     df.to_csv("earnings.csv", index=False)
 
 
-if __name__ == "__main__":
+def main():
     tickers = get_tickers()
     get_earnings(tickers)
     load_csv_to_sql("earnings.csv", "earnings")
+
+
+if __name__ == "__main__":
+    main()

@@ -1,7 +1,8 @@
+from datetime import datetime
 import requests
 import pandas as pd
 from utility import read_constituents as get_tickers
-from parse_csv import load_csv_to_sql
+from parse_csv import load_df_to_sql
 
 api_key = "9NLUTD6I2QZTR2BZ"
 
@@ -28,11 +29,14 @@ def fetch_and_save_top_glm():
     # Concatenate all dataframes
     df = pd.concat([top_gainers, top_losers, most_actively_traded])
 
-    csv_file_path = "top_glm.csv"
-    df.to_csv(csv_file_path, index=False)
+    df["updated_on"] = datetime.now()
 
-    load_csv_to_sql("top_glm.csv", "top_glm")
+    load_df_to_sql(df, "top_glm")
+
+
+def main():
+    fetch_and_save_top_glm()
 
 
 if __name__ == "__main__":
-    fetch_and_save_top_glm()
+    main()

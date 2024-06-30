@@ -1,7 +1,8 @@
 import requests
 import pandas as pd
 from utility import read_constituents as get_tickers
-from parse_csv import load_csv_to_sql
+from parse_csv import load_df_to_sql
+from datetime import datetime
 
 api_key = "9NLUTD6I2QZTR2BZ"
 
@@ -36,14 +37,14 @@ def fetch_and_save_income_statements():
     df = pd.DataFrame(all_cleaned_data)
     # Setting headers
     df.columns = annual_rep_headers
+    df["updated_on"] = datetime.now()
 
-    # csv file name
-    csv_file = "income_statements_data.csv"
-    # Save DataFrame to CSV
-    df.to_csv(csv_file, index=False)
+    load_df_to_sql(df, "inc_stmts")
 
-    load_csv_to_sql("income_statements_data.csv", "inc_stmts")
+
+def main():
+    fetch_and_save_income_statements()
 
 
 if __name__ == "__main__":
-    fetch_and_save_income_statements()
+    main()

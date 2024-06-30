@@ -2,7 +2,8 @@ import yfinance as yf
 import pandas as pd
 from typing import List
 from utility import read_constituents as get_tickers
-from parse_csv import load_csv_to_sql
+from parse_csv import load_df_to_sql
+from datetime import datetime
 
 
 def fetch_insider_purchases(tickers: List[str]) -> pd.DataFrame:
@@ -19,8 +20,12 @@ def fetch_insider_purchases(tickers: List[str]) -> pd.DataFrame:
     return result
 
 
-if __name__ == "__main__":
+def main():
     tickers = get_tickers()
     insider_df = fetch_insider_purchases(tickers)
-    insider_df.to_csv("insider_summaries.csv", index=False)
-    load_csv_to_sql("insider_summaries.csv", "insider_summaries")
+    insider_df["updated_on"] = datetime.now()
+    load_df_to_sql(insider_df, "insider_summaries")
+
+
+if __name__ == "__main__":
+    main()

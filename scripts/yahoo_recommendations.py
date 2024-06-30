@@ -2,7 +2,8 @@ import yfinance as yf
 import pandas as pd
 from typing import List
 from utility import read_constituents as get_tickers
-from parse_csv import load_csv_to_sql
+from parse_csv import load_df_to_sql
+from datetime import datetime
 
 
 def fetch_recommendations(tickers: List[str]) -> pd.DataFrame:
@@ -19,8 +20,13 @@ def fetch_recommendations(tickers: List[str]) -> pd.DataFrame:
     return result
 
 
-if __name__ == "__main__":
+def main():
     tickers = get_tickers()
     recs_df = fetch_recommendations(tickers)
     recs_df.to_csv("recs.csv", index=False)
-    load_csv_to_sql("recs.csv", "recs")
+    recs_df["updated_on"] = datetime.now()
+    load_df_to_sql(recs_df, "recs")
+
+
+if __name__ == "__main__":
+    main()
