@@ -1,8 +1,6 @@
 import requests
 import pandas as pd
 from utility import read_constituents as get_tickers
-from typing import List
-import csv
 from parse_csv import load_csv_to_sql
 
 api_key = "9NLUTD6I2QZTR2BZ"
@@ -13,7 +11,6 @@ def fetch_top_gL():
     url = f"https://www.alphavantage.co/query?function=TOP_GAINERS_LOSERS&apikey={api_key}"
     response = requests.get(url)
     data = response.json()
-    print(data)
     return data
 
 

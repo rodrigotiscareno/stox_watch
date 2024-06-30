@@ -1,8 +1,6 @@
 import requests
 import pandas as pd
 from utility import read_constituents as get_tickers
-from typing import List
-import csv
 from parse_csv import load_csv_to_sql
 
 api_key = "9NLUTD6I2QZTR2BZ"
@@ -36,7 +34,6 @@ def fetch_and_save_cash_flow():
 
     # Convert to pandas DataFrame
     df = pd.DataFrame(all_cleaned_data)
-    # Setting headers
     df.columns = annual_rep_headers
 
     # csv file name
