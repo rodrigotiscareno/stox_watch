@@ -9,7 +9,7 @@ def get_tickers(limit: int = 100) -> List[str]:
 
 
 def read_constituents() -> List[str]:
-    file = open("../security_universe.txt", "r")
+    file = open("security_universe.txt", "r")
     stocks = file.read()
     file.close()
     stocks = stocks.split("\n")
