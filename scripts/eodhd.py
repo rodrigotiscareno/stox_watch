@@ -2,8 +2,8 @@ import requests
 import json
 import csv
 
-from utility import get_tickers
-from parse_csv import load_csv_to_sql
+from utils.utility import get_tickers
+from utils.parse_csv import load_csv_to_sql
 from datetime import datetime
 
 

@@ -2,3 +2,7 @@ requests
 pandas
 yfinance
 yahooquery
+python-dotenv
+Flask-SQLAlchemy
+statsmodels
+scikit-learn

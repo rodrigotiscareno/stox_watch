@@ -1,8 +1,8 @@
 import yfinance as yf
 import pandas as pd
 from typing import List
-from utility import read_constituents as get_tickers
-from parse_csv import load_df_to_sql
+from utils.utility import read_constituents as get_tickers
+from utils.parse_csv import load_df_to_sql
 from datetime import datetime
 
 
@@ -16,6 +16,7 @@ def fetch_prices(tickers: List[str], period: str) -> pd.DataFrame:
     result = pd.concat(all_prices)
     result.columns = result.columns.str.lower()
     result.columns = result.columns.str.replace(" ", "_")
+    result = result.reset_index()
     return result
 
 

@@ -1,5 +1,5 @@
 from yahooquery import Ticker
-from utility import read_constituents as get_tickers
+from utils.utility import read_constituents as get_tickers
 import pandas as pd
 
 

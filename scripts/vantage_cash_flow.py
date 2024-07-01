@@ -1,6 +1,6 @@
 import requests
 import pandas as pd
-from utility import read_constituents as get_tickers
+from utils.utility import read_constituents as get_tickers
 import os
 from dotenv import load_dotenv
 from sqlalchemy import create_engine

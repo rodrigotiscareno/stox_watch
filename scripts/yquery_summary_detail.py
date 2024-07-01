@@ -1,8 +1,8 @@
 from datetime import datetime
 from yahooquery import Ticker
-from utility import read_constituents as get_tickers
+from utils.utility import read_constituents as get_tickers
 import pandas as pd
-from parse_csv import load_csv_to_sql
+from utils.parse_csv import load_csv_to_sql
 
 
 def get_summary_detail(tickers):

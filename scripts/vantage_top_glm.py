@@ -1,8 +1,8 @@
 from datetime import datetime
 import requests
 import pandas as pd
-from utility import read_constituents as get_tickers
-from parse_csv import load_df_to_sql
+from utils.utility import read_constituents as get_tickers
+from utils.parse_csv import load_df_to_sql
 
 api_key = "9NLUTD6I2QZTR2BZ"
 
