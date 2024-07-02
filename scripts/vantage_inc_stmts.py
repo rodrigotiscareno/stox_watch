@@ -1,6 +1,6 @@
 import requests
 import pandas as pd
-from utils.utility import read_constituents as get_tickers
+from utility import read_constituents as get_tickers
 from utils.parse_csv import load_df_to_sql
 from datetime import datetime
 

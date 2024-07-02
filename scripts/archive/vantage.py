@@ -1,6 +1,6 @@
 import requests
 import pandas as pd
-from utils.utility import read_constituents as get_tickers
+from utility import read_constituents as get_tickers
 from typing import List
 import csv
 

@@ -1,5 +1,5 @@
 from yahooquery import Ticker
-from utils.utility import read_constituents as get_tickers
+from utility import read_constituents as get_tickers
 import pandas as pd
 from utils.parse_csv import load_csv_to_sql
 from datetime import datetime

@@ -1,7 +1,7 @@
 from typing import List
 import yfinance as yf
 import pandas as pd
-from utils.utility import read_constituents as get_tickers
+from utility import read_constituents as get_tickers
 
 
 def fetch_insider_purchases(tickers: List[str]) -> pd.DataFrame:
