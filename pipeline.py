@@ -22,6 +22,28 @@ from scripts.yquery_summary_detail import main as fetch_and_save_summary_detail
 
 from modelling.arima import main as forecast_prices
 
+from send_email import main as notification
+
+
+def email_notifier(func):
+    def wrapper(*args, **kwargs):
+        try:
+            result = func(*args, **kwargs)
+            notification(
+                subject=f"Task {func.__name__} completed",
+                sentences=f"The task {func.__name__} has been completed successfully.",
+            )
+            return result
+        except Exception as e:
+            notification(
+                subject=f"Task {func.__name__} failed",
+                sentences=f"The task {func.__name__} failed with error: {e}",
+            )
+            raise
+
+    return wrapper
+
+
 executors = {"default": ThreadPoolExecutor(10)}
 
 job_defaults = {"max_instances": 5}
@@ -29,65 +51,79 @@ job_defaults = {"max_instances": 5}
 scheduler = BackgroundScheduler(executors=executors, job_defaults=job_defaults)
 
 
+@email_notifier
 def balance_sheets():
     fetch_and_save_bal_sht()
 
 
+@email_notifier
 def sentiments():
     fetch_and_save_sentiments()
 
 
+@email_notifier
 def cash_flow():
     fetch_and_save_cash_flow()
 
 
+@email_notifier
 def income_statements():
     fetch_and_save_income_statements()
 
 
+@email_notifier
 def top_n_stats():
     fetch_and_save_top_glm()
 
 
+@email_notifier
 def insider_purchases():
     fetch_and_save_insider_purchases()
 
 
+@email_notifier
 def ticker_prices():
     fetch_and_save_ticker_prices()
 
 
+@email_notifier
 def recs():
     fetch_and_save_recommendations()
 
 
+@email_notifier
 def earnings_trends():
     fetch_and_save_earnings_trends()
 
 
+@email_notifier
 def earnings():
     fetch_and_save_earnings()
 
 
+@email_notifier
 def financial_data():
     fetch_and_save_financial_data()
 
 
+@email_notifier
 def key_stats():
     fetch_and_save_key_stats()
 
 
+@email_notifier
 def summary_detail():
     fetch_and_save_summary_detail()
 
 
+@email_notifier
 def price_forecast():
     forecast_prices()
 
 
 if __name__ == "__main__":
 
-    scheduler.add_job(ticker_prices, "cron", hour=4, minute=30)
+    scheduler.add_job(ticker_prices, "cron", hour=17, minute=17)
     scheduler.add_job(price_forecast, "cron", hour=5, minute=0)
 
     scheduler.add_job(financial_data, "cron", hour=7, minute=0)
