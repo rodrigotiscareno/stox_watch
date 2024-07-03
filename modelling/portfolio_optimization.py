@@ -1,4 +1,7 @@
 import sys
+import os
+
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from utils.get_data import fetch_data
 import numpy as np
 from gurobipy import Model, GRB, quicksum
