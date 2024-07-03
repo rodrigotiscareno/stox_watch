@@ -6,3 +6,4 @@ python-dotenv
 Flask-SQLAlchemy
 statsmodels
 scikit-learn
+mysql-connector-python-rf

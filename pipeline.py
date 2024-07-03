@@ -21,6 +21,7 @@ from scripts.yquery_key_stats import main as fetch_and_save_key_stats
 from scripts.yquery_summary_detail import main as fetch_and_save_summary_detail
 
 from modelling.arima import main as forecast_prices
+from modelling.covariance import main as calculate_covariance
 
 from send_email import main as notification
 
@@ -121,10 +122,16 @@ def price_forecast():
     forecast_prices()
 
 
+@email_notifier
+def covariance():
+    calculate_covariance()
+
+
 if __name__ == "__main__":
 
     scheduler.add_job(ticker_prices, "cron", hour=4, minute=5)
     scheduler.add_job(price_forecast, "cron", hour=5, minute=0)
+    scheduler.add_job(covariance, "cron", hour=5, minute=10)
 
     scheduler.add_job(financial_data, "cron", hour=7, minute=0)
     scheduler.add_job(sentiments, "cron", hour=7, minute=10)
