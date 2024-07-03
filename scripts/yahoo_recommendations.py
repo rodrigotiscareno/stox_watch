@@ -1,7 +1,7 @@
 import yfinance as yf
 import pandas as pd
 from typing import List
-from utility import read_constituents as get_tickers
+from scripts.utility import read_constituents as get_tickers
 from utils.parse_csv import load_df_to_sql
 from datetime import datetime
 

@@ -1,4 +1,4 @@
-from scripts.constituents import get_spy as get_constituents
+from constituents import get_spy as get_constituents
 from typing import List
 
 
