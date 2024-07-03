@@ -4,7 +4,7 @@ import os
 from dotenv import load_dotenv
 
 
-def fetch_data(query):
+def fetch_data(query, connection_string=None):
     load_dotenv()
 
     username = os.getenv("DB_USER")
@@ -13,9 +13,10 @@ def fetch_data(query):
     database = os.getenv("DB_NAME")
     port = "3306"
 
-    connection_string = (
-        f"mysql+mysqlconnector://{username}:{password}@{host}:{port}/{database}"
-    )
+    if connection_string is None:
+        connection_string = (
+            f"mysql+mysqlconnector://{username}:{password}@{host}:{port}/{database}"
+        )
 
     engine = create_engine(connection_string)
 
