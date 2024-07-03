@@ -3,8 +3,6 @@ from sqlalchemy import create_engine
 import os
 from dotenv import load_dotenv
 
-from parse_csv import load_df_to_sql
-
 
 def fetch_data(query):
     load_dotenv()

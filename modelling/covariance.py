@@ -1,3 +1,8 @@
+import sys
+import os
+
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 from utils.get_data import fetch_data
 from utils.parse_csv import load_df_to_sql
 
