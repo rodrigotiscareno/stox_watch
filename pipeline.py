@@ -123,7 +123,7 @@ def price_forecast():
 
 if __name__ == "__main__":
 
-    scheduler.add_job(ticker_prices, "cron", hour=17, minute=17)
+    scheduler.add_job(ticker_prices, "cron", hour=4, minute=5)
     scheduler.add_job(price_forecast, "cron", hour=5, minute=0)
 
     scheduler.add_job(financial_data, "cron", hour=7, minute=0)
