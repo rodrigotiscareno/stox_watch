@@ -1,5 +1,6 @@
 import sys
 import os
+from datetime import datetime
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
@@ -18,6 +19,7 @@ def main():
     cov_matrix_reset = cov_matrix.reset_index()
 
     cov_matrix_reset.rename(columns={"index": "ticker"}, inplace=True)
+    cov_matrix_reset["updated_time"] = datetime.now()
     load_df_to_sql(cov_matrix_reset, "covariance_matrix")
 
 
