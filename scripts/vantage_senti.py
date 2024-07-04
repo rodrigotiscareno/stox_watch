@@ -1,10 +1,15 @@
+import sys
+import os
+
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 import requests
 import pandas as pd
 from scripts.utility import read_constituents as get_tickers
-import os
 from datetime import datetime, timedelta
 from dotenv import load_dotenv
 from sqlalchemy import create_engine
+
 
 load_dotenv()
 
@@ -72,7 +77,7 @@ def fetch_and_save_sentiment():
     df["updated_time"] = datetime.now()
 
     # uploading to db
-    df.to_sql("senti", con=engine, index=False, if_exists="replace")
+    df.to_sql("sentiment", con=engine, index=False, if_exists="replace")
 
 
 if __name__ == "__main__":
