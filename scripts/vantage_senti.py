@@ -1,8 +1,7 @@
 import requests
 import pandas as pd
 from scripts.utility import read_constituents as get_tickers
-from typing import List
-import csv
+import os
 from datetime import datetime, timedelta
 from dotenv import load_dotenv
 from sqlalchemy import create_engine
@@ -21,7 +20,7 @@ engine = create_engine(
 
 # date 30 days ago
 date_30_days_ago = datetime.now() - timedelta(days=30)
-time_from = date_30_days_ago.strftime('%Y%m%dT%H%M')
+time_from = date_30_days_ago.strftime("%Y%m%dT%H%M")
 
 
 api_key = "9NLUTD6I2QZTR2BZ"
@@ -29,12 +28,11 @@ api_key = "9NLUTD6I2QZTR2BZ"
 
 # function to get sentiment and news for a given symbol
 def fetch_sentiment(symbol):
-    url = (
-        f"https://www.alphavantage.co/query?function=NEWS_SENTIMENT&tickers={symbol}&time_from={time_from}&apikey={api_key}"
-    )
+    url = f"https://www.alphavantage.co/query?function=NEWS_SENTIMENT&tickers={symbol}&time_from={time_from}&apikey={api_key}"
     response = requests.get(url)
     data = response.json()
     return data
+
 
 def fetch_and_save_sentiment():
     # fetch the top 100 symbols.
@@ -50,14 +48,18 @@ def fetch_and_save_sentiment():
             for feed_item in data["feed"]:
                 for sentiment in feed_item["ticker_sentiment"]:
                     if sentiment["ticker"] == symbol:
-                        average_sentiment.append(float(sentiment["ticker_sentiment_score"]))
+                        average_sentiment.append(
+                            float(sentiment["ticker_sentiment_score"])
+                        )
             # average sentiment score across articles
-            if len(average_sentiment) > 0:            
-                sentiments.append(float(sum(average_sentiment))/float(len(average_sentiment)))
-            # articles with no mention get a sentiment score of 0    
+            if len(average_sentiment) > 0:
+                sentiments.append(
+                    float(sum(average_sentiment)) / float(len(average_sentiment))
+                )
+            # articles with no mention get a sentiment score of 0
             else:
                 sentiments.append(float(0))
-        # articles with no mention get a sentiment score of 0        
+        # articles with no mention get a sentiment score of 0
         else:
             sentiments.append(float(0))
 

@@ -3,6 +3,7 @@ import os
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from utils.get_data import fetch_data
+from utils.parse_csv import load_df_to_sql
 import numpy as np
 from gurobipy import Model, GRB, quicksum
 import pandas as pd
@@ -86,6 +87,7 @@ def main(
     unique_companies: int = 10,
     unique_industries: int = 4,
     N: int = 15,
+    save_df: bool = False,
 ):
 
     expected_return = get_return_factors()
@@ -174,7 +176,10 @@ def main(
 
         results_df["updated_time"] = datetime.now()
 
-        return results_df
+        if save_df:
+            load_df_to_sql(results_df, "portfolio_optimization", "append")
+        else:
+            return results_df
 
     else:
         print("Optimization was not successful. Status code:", m.status)
@@ -182,6 +187,6 @@ def main(
 
 
 if __name__ == "__main__":
-    results_df = main()
+    results_df = main(save_df=True)
     if results_df is not None:
         print(results_df)

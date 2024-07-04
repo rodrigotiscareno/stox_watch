@@ -136,8 +136,7 @@ def covariance():
 
 @email_notifier(full_coverage=True)
 def optimize_portfolio():
-    df = register_recommendations()
-    load_df_to_sql(df, "portfolio_recommendations", "append")
+    register_recommendations(save_df=True)
 
 
 if __name__ == "__main__":
