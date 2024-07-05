@@ -1,0 +1,13 @@
+/* style.css */
+
+[data-testid="stSidebar"] {
+  background-color: #b7cdcc;
+}
+[data-testid="stSidebar"] .css-1d391kg,
+[data-testid="stSidebar"] .css-fblp2m {
+  color: white;
+}
+
+/* h1 {
+    color: #285953;
+} */
