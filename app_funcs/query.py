@@ -41,6 +41,34 @@ def get_rated_forecast_results(limit=5):
     return pd.read_sql(query, engine)
 
 
+def get_volume_per_day(limit=21):
+    engine = connect()
+
+    query = f"""SELECT 
+        Date, 
+        SUM(volume) AS total_volume
+    FROM 
+        (SELECT DISTINCT 
+            Date, 
+            open, 
+            high, 
+            low, 
+            close, 
+            volume, 
+            dividends, 
+            stock_splits, 
+            ticker, 
+            updated_on 
+        FROM 
+            ticker_price
+        ) AS distinct_ticker_price
+    GROUP BY 
+        Date
+    ORDER BY Date DESC
+    LIMIT {limit}"""
+    return pd.read_sql(query, engine)
+
+
 def get_gainers_n_losers(category, order_by, limit=5):
     engine = connect()
     query = f"""
