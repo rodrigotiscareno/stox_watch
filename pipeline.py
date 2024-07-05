@@ -81,22 +81,22 @@ def insider_purchases():
     fetch_and_save_insider_purchases()
 
 
-@email_notifier(full_coverage=True)
+@email_notifier(full_coverage=False)
 def ticker_prices():
     fetch_and_save_ticker_prices()
 
 
-@email_notifier(full_coverage=True)
+@email_notifier(full_coverage=False)
 def recs():
     fetch_and_save_recommendations()
 
 
-@email_notifier(full_coverage=True)
+@email_notifier(full_coverage=False)
 def earnings_trends():
     fetch_and_save_earnings_trends()
 
 
-@email_notifier(full_coverage=True)
+@email_notifier(full_coverage=False)
 def earnings():
     fetch_and_save_earnings()
 
@@ -116,17 +116,17 @@ def summary_detail():
     fetch_and_save_summary_detail()
 
 
-@email_notifier(full_coverage=True)
+@email_notifier(full_coverage=False)
 def price_forecast():
     forecast_prices()
 
 
-@email_notifier(full_coverage=True)
+@email_notifier(full_coverage=False)
 def covariance():
     calculate_covariance()
 
 
-@email_notifier(full_coverage=True)
+@email_notifier(full_coverage=False)
 def optimize_portfolio():
     register_recommendations(save_df=True)
 
