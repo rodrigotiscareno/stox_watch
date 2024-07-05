@@ -23,7 +23,7 @@ from modelling.arima import main as forecast_prices
 from modelling.covariance import main as calculate_covariance
 from modelling.portfolio_optimization import main as register_recommendations
 
-from send_email import main as notification
+from utils.send_email import main as notification
 
 
 def email_notifier(full_coverage=False):
