@@ -1,3 +1,7 @@
+import sys
+import os
+
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from datetime import datetime
 from yahooquery import Ticker
 from scripts.utility import read_constituents as get_tickers
@@ -29,6 +33,8 @@ def get_earnings(tickers):
         )
 
         df["year"] = df["date"].str[-4:]
+        df = df.drop_duplicates(subset=["ticker", "date"], keep="first")
+
         all_earnings.append(df)
 
     df = pd.concat(all_earnings)

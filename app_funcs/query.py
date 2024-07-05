@@ -1,0 +1,126 @@
+import pandas as pd
+from sqlalchemy import create_engine, text
+from dotenv import load_dotenv
+import os
+
+
+def connect():
+    load_dotenv()
+    DB_HOST = os.getenv("DB_HOST")
+    DB_USER = os.getenv("DB_USER")
+    DB_PASSWORD = os.getenv("DB_PASSWORD")
+    DB_NAME = os.getenv("DB_NAME")
+    port = "3306"
+
+    engine = create_engine(
+        f"mysql+pymysql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{port}/{DB_NAME}"
+    )
+    return engine
+
+
+def get_rated_volume(limit=5):
+    engine = connect()
+    query = f"""
+    SELECT * 
+    FROM ticker_price
+    WHERE `Date`  IN (SELECT MAX(`Date`) FROM ticker_price GROUP BY ticker)
+    ORDER BY volume DESC
+    LIMIT {limit};
+    """
+    return pd.read_sql(query, engine)
+
+
+def get_rated_forecast_results(limit=5):
+    engine = connect()
+    query = f"""
+    SELECT *
+    FROM ticker_predictions tp 
+    ORDER BY return_factor DESC 
+    LIMIT {limit}
+    """
+    return pd.read_sql(query, engine)
+
+
+def get_gainers_n_losers(category, order_by, limit=5):
+    engine = connect()
+    query = f"""
+    SELECT *
+    FROM top_glm tg 
+    WHERE category = '{category}'
+    ORDER BY {order_by} DESC
+    LIMIT {limit}
+    """
+    return pd.read_sql(query, engine)
+
+
+def get_top_earning_performers(limit=5):
+    engine = connect()
+    quarters = ("1Q2024", "2Q2024")
+    query = text(
+        """
+    WITH quarters AS (
+        SELECT
+            ticker,
+            date,
+            year,
+            earnings,
+            CASE
+                WHEN date LIKE '1Q%' THEN 1
+                WHEN date LIKE '2Q%' THEN 2
+                WHEN date LIKE '3Q%' THEN 3
+                WHEN date LIKE '4Q%' THEN 4
+            END AS quarter_number
+        FROM earnings
+    ),
+    growth_calculation AS (
+        SELECT
+            current.ticker,
+            current.date AS current_quarter,
+            previous.date AS previous_quarter,
+            ((current.earnings - previous.earnings) / previous.earnings) * 100 AS earnings_growth_percentage
+        FROM 
+            quarters current
+        JOIN 
+            quarters previous 
+        ON 
+            current.ticker = previous.ticker
+            AND (
+                (current.year = previous.year AND current.quarter_number = previous.quarter_number + 1)
+                OR (current.year = previous.year + 1 AND current.quarter_number = 1 AND previous.quarter_number = 4)
+            )
+    ),
+    ranked_growth AS (
+        SELECT
+            ticker,
+            current_quarter,
+            previous_quarter,
+            earnings_growth_percentage,
+            ROW_NUMBER() OVER (PARTITION BY ticker ORDER BY earnings_growth_percentage DESC) AS rn
+        FROM 
+            growth_calculation
+    ),
+    top_growth AS (
+        SELECT
+            ticker,
+            current_quarter,
+            previous_quarter,
+            earnings_growth_percentage
+        FROM 
+            ranked_growth
+        WHERE rn = 1
+    )
+    SELECT 
+        ticker,
+        current_quarter,
+        previous_quarter,
+        earnings_growth_percentage
+    FROM 
+        top_growth
+    WHERE current_quarter IN :quarters
+    ORDER BY 
+        earnings_growth_percentage DESC
+    LIMIT :limit;
+    """
+    )
+    params = {"quarters": quarters, "limit": limit}
+    return pd.read_sql(query, engine, params=params)
