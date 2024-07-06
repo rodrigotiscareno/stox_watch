@@ -11,4 +11,4 @@ gurobipy==11.0.2
 streamlit==1.36.0
 streamlit-option-menu==0.3.13
 matplotlib==3.9.1
-
+watchdog==4.0.1

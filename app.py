@@ -4,8 +4,6 @@ import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import streamlit as st
-import pandas as pd
-import matplotlib.pyplot as plt
 from streamlit_option_menu import option_menu
 
 from app.portfolio import portfolio_page
@@ -29,14 +27,7 @@ if "display_recommendation_details" not in st.session_state:
     st.session_state.display_recommendation_details = False
 
 
-def display_recs():
-    st.session_state.display_recommendations = True
-
-
-def display_recs_details():
-    st.session_state.display_recommendation_details = True
-
-
+# Navigation
 with st.sidebar:
     selected = option_menu(
         menu_title="Navigate",
@@ -48,12 +39,7 @@ with st.sidebar:
     elif selected == "Portfolio":
         st.session_state.page = "Portfolio"
 
-# Display the selected page
 if st.session_state.page == "Home":
     home_page()
 elif st.session_state.page == "Portfolio":
-    portfolio_page(display_recs, display_recs_details)
-
-# # Run the app
-# if __name__ == '__main__':
-#     st.write('Running Streamlit app...')
+    portfolio_page()
