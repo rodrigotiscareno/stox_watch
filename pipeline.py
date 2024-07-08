@@ -142,7 +142,7 @@ if __name__ == "__main__":
     scheduler.add_job(price_forecast, "cron", hour=5, minute=0)
     scheduler.add_job(covariance, "cron", hour=5, minute=30)
 
-    scheduler.add_job(optimize_portfolio, "cron", hour=6, minute=0)
+    scheduler.add_job(optimize_portfolio, "cron", hour=1, minute=0)
 
     scheduler.add_job(financial_data, "cron", hour=7, minute=0)
     scheduler.add_job(summary_detail, "cron", hour=7, minute=20)
