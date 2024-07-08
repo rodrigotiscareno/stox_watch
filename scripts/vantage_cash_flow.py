@@ -1,7 +1,11 @@
+import sys
+import os
+
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 import requests
 import pandas as pd
 from scripts.utility import read_constituents as get_tickers
-import os
 from dotenv import load_dotenv
 from sqlalchemy import create_engine
 from datetime import datetime

@@ -4,7 +4,6 @@ from sqlalchemy import create_engine
 from dotenv import load_dotenv
 import os
 from statsmodels.tsa.arima.model import ARIMA
-from sklearn.metrics import mean_squared_error
 import itertools
 
 
