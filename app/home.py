@@ -83,7 +83,6 @@ def display_forecast_card(stock):
         <div class="card">
             <div class="card-content">
                 <div class="card-title">{stock['ticker']}</div>
-                <div class="card-text"><strong>RMSE: </strong>{stock['rmse']}</div>
                 <div class="card-text"><strong>Return Factor: </strong>{stock['return_factor']:.2f}</div>
                 <div class="card-text"><strong>Last Updated On: </strong>{formatted_datetime}</div>
             </div>
@@ -173,7 +172,6 @@ def home_page():
         for _, row in top_forecast_stocks.iterrows():
             stock = {
                 "ticker": row["ticker"],
-                "rmse": row["rmse"],
                 "return_factor": row["return_factor"],
                 "updated_time": row["updated_time"],
             }
