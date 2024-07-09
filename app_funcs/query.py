@@ -34,9 +34,10 @@ def get_rated_forecast_results(limit=5):
     engine = connect()
     query = f"""
     SELECT *
-    FROM ticker_predictions tp 
-    ORDER BY return_factor DESC 
-    LIMIT {limit}
+    FROM ticker_forecasted_prices tfp 
+    GROUP BY ticker
+    ORDER BY return_factor DESC
+    LIMIT {limit};
     """
     return pd.read_sql(query, engine)
 
