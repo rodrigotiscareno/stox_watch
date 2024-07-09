@@ -31,7 +31,7 @@ def log_monitor_to_sql(process_text, status):
     }
     
     df = pd.DataFrame(data)
-    df.to_sql("monitoring", con=engine, index=False, if_exists="replace")
+    df.to_sql("monitoring", con=engine, index=False, if_exists="append")
 
     
 def main(process_text, status):

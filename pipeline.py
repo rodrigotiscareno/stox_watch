@@ -24,24 +24,40 @@ from modelling.covariance import main as calculate_covariance
 from modelling.portfolio_optimization import main as register_recommendations
 
 from utils.send_email import main as notification
+import utils.monitoring_service as logging
 
 
 def email_notifier(full_coverage=False):
     def decorator(func):
         def wrapper(*args, **kwargs):
+            process_text = f"Starting {func.__name__}"
+            status = "START"
+            logging(process_text, status)
+            
             try:
+                process_text = f"Running {func.__name__}"
+                status = "FETCHING"
+                logging.log_monitor_to_sql(process_text, status)
+                
                 result = func(*args, **kwargs)
                 if full_coverage:
                     notification(
                         subject=f"Task {func.__name__} completed",
                         sentences=f"The task {func.__name__} has been completed successfully.",
                     )
+                    process_text = f"Completed {func.__name__}"
+                    status = "FINISH"
+                    logging.log_monitor_to_sql(process_text, status)
                 return result
             except Exception as e:
                 notification(
                     subject=f"Task {func.__name__} failed",
                     sentences=f"The task {func.__name__} failed with error: {e}",
                 )
+                process_text = f"Failed {func.__name__} with error: {e}"
+                status = "ERROR"
+                logging.log_monitor_to_sql(process_text, status)
+                
                 raise
 
         return wrapper
