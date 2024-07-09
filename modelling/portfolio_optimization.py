@@ -55,8 +55,20 @@ def get_tickers():
     )
 
 
-def get_return_factors():
-    query = "SELECT ticker, return_factor FROM ticker_predictions ORDER BY ticker"
+def get_return_factors(term):
+    clause = {
+        "short": "WHERE forecast_type = 'short_term'",
+        "medium": "WHERE forecast_type = 'medium_term'",
+        "long": "WHERE forecast_type = 'long_term'",
+    }
+    clause = clause[term]
+    query = f"""
+    SELECT *
+    FROM ticker_forecasted_prices
+    {clause}
+    GROUP BY ticker
+    ORDER BY ticker
+    """
     df = fetch_data(query)
     df_sorted = df.sort_values(by="ticker")
     return df_sorted["return_factor"].tolist()
@@ -82,15 +94,16 @@ def get_ticker_price():
 
 def main(
     budget: int = 100_000,
-    p: float = 0.9,
+    p: float = 0.6,
     lambda_risk_coefficient: float = 0.8,
     unique_companies: int = 10,
     unique_industries: int = 4,
     N: int = 15,
     save_df: bool = False,
+    term: str = "short",
 ):
 
-    expected_return = get_return_factors()
+    expected_return = get_return_factors(term)
     price = get_ticker_price()
     product_matrix = get_industry_matrix()
     covariance = get_covariance()
