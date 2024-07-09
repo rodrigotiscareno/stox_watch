@@ -28,7 +28,7 @@ date_30_days_ago = datetime.now() - timedelta(days=30)
 time_from = date_30_days_ago.strftime("%Y%m%dT%H%M")
 
 
-api_key = "9NLUTD6I2QZTR2BZ"
+api_key = os.getenv("VANTAGE_KEY")
 
 
 # function to get sentiment and news for a given symbol
@@ -37,6 +37,7 @@ def fetch_sentiment(symbol):
     response = requests.get(url)
     data = response.json()
     return data
+
 
 # function to convert time string to datetime object
 def convert_to_datetime(time_str):
@@ -60,9 +61,7 @@ def fetch_and_save_sentiment():
             for feed_item in data["feed"]:
                 for sentiment in feed_item["ticker_sentiment"]:
                     if sentiment["ticker"] == symbol:
-                        sentiments.append(
-                            float(sentiment["ticker_sentiment_score"])
-                        )
+                        sentiments.append(float(sentiment["ticker_sentiment_score"]))
                         list_tickers.append(symbol)
                 # getting the date of the article
                 if "time_published" in feed_item:
@@ -77,7 +76,9 @@ def fetch_and_save_sentiment():
     sentiments = [round(value, 3) for value in sentiments]
 
     # setting the time_published date to be the same fromat as updated_time
-    time_published_datetime_list = [datetime.strptime(time_str, '%Y%m%dT%H%M%S') for time_str in time_published]
+    time_published_datetime_list = [
+        datetime.strptime(time_str, "%Y%m%dT%H%M%S") for time_str in time_published
+    ]
 
     # creating dataframe
     df = pd.DataFrame()

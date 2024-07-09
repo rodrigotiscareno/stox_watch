@@ -2,8 +2,13 @@ from datetime import datetime
 import requests
 import pandas as pd
 from utils.parse_csv import load_df_to_sql
+from dotenv import load_dotenv
+import os
 
-api_key = "9NLUTD6I2QZTR2BZ"
+
+load_dotenv()
+
+api_key = os.getenv("VANTAGE_KEY")
 
 
 # function to fetch top gainers/losers/mostactive data for a given symbol

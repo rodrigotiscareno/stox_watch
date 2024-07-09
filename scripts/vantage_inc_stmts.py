@@ -3,8 +3,13 @@ import pandas as pd
 from scripts.utility import read_constituents as get_tickers
 from utils.parse_csv import load_df_to_sql
 from datetime import datetime
+from dotenv import load_dotenv
+import os
+from datetime import datetime
 
-api_key = "9NLUTD6I2QZTR2BZ"
+load_dotenv()
+
+api_key = os.getenv("VANTAGE_KEY")
 
 
 # function to fetch income statements data for a given symbol

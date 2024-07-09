@@ -2,16 +2,14 @@ import requests
 import pandas as pd
 from scripts.utility import read_constituents as get_tickers
 from typing import List
-import csv
+from dotenv import load_dotenv
+import os
 
-# # replace the "demo" apikey below with your own key from https://www.alphavantage.co/support/#api-key
-# url = "https://www.alphavantage.co/query?function=TOP_GAINERS_LOSERS&apikey="
-# r = requests.get(url)
-# data = r.json()
 
-# print(pd.DataFrame(data["most_actively_traded"]))
+load_dotenv()
 
-api_key = "9NLUTD6I2QZTR2BZ"
+
+api_key = os.getenv("VANTAGE_KEY")
 
 
 # Create a function to fetch cash flow data for a given symbol

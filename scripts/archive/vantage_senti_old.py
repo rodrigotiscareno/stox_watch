@@ -28,7 +28,7 @@ date_30_days_ago = datetime.now() - timedelta(days=30)
 time_from = date_30_days_ago.strftime("%Y%m%dT%H%M")
 
 
-api_key = "9NLUTD6I2QZTR2BZ"
+api_key = os.getenv("VANTAGE_KEY")
 
 
 # function to get sentiment and news for a given symbol
@@ -64,7 +64,7 @@ def fetch_and_save_sentiment():
             # articles with no mention get a sentiment score of 0
             else:
                 sentiments.append(float(0))
-       # handling case were there is no sentiment for a given symbol
+        # handling case were there is no sentiment for a given symbol
         else:
             sentiments.append(float(0))
 

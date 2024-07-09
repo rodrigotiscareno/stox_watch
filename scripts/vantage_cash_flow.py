@@ -22,7 +22,7 @@ engine = create_engine(
     f"mysql+pymysql://{username}:{password}@{host}:{port}/{database}"
 )
 
-api_key = "9NLUTD6I2QZTR2BZ"
+api_key = os.getenv("VANTAGE_KEY")
 
 
 # function to fetch cash flow data for a given symbol
