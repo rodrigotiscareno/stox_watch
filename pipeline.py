@@ -154,25 +154,25 @@ def sentiment():
 
 if __name__ == "__main__":
 
-    scheduler.add_job(ticker_prices, "cron", hour=18, minute=30)
-    scheduler.add_job(price_forecast, "cron", hour=18, minute=40)
-    scheduler.add_job(covariance, "cron", hour=18, minute=50)
+    scheduler.add_job(ticker_prices, "cron", hour=23, minute=30)
+    scheduler.add_job(price_forecast, "cron", hour=23, minute=40)
+    scheduler.add_job(covariance, "cron", hour=23, minute=50)
 
-    scheduler.add_job(optimize_portfolio, "cron", hour=19, minute=0)
+    scheduler.add_job(optimize_portfolio, "cron", hour=23, minute=0)
 
-    scheduler.add_job(financial_data, "cron", hour=19, minute=10)
-    scheduler.add_job(summary_detail, "cron", hour=19, minute=20)
-    scheduler.add_job(recs, "cron", hour=19, minute=30)
-    scheduler.add_job(top_n_stats, "cron", hour=19, minute=40)
-    scheduler.add_job(insider_purchases, "cron", hour=19, minute=50)
-    scheduler.add_job(income_statements, "cron", hour=20, minute=0)
-    scheduler.add_job(earnings_trends, "cron", hour=20, minute=10)
-    scheduler.add_job(earnings, "cron", hour=20, minute=20)
-    scheduler.add_job(balance_sheets, "cron", hour=20, minute=30)
-    scheduler.add_job(key_stats, "cron", hour=20, minute=40)
-    scheduler.add_job(cash_flow, "cron", hour=20, minute=50)
+    scheduler.add_job(financial_data, "cron", hour=23, minute=10)
+    scheduler.add_job(summary_detail, "cron", hour=23, minute=20)
+    scheduler.add_job(recs, "cron", hour=23, minute=30)
+    scheduler.add_job(top_n_stats, "cron", hour=23, minute=40)
+    scheduler.add_job(insider_purchases, "cron", hour=23, minute=50)
+    scheduler.add_job(income_statements, "cron", hour=0, minute=0)
+    scheduler.add_job(earnings_trends, "cron", hour=0, minute=10)
+    scheduler.add_job(earnings, "cron", hour=0, minute=20)
+    scheduler.add_job(balance_sheets, "cron", hour=0, minute=30)
+    scheduler.add_job(key_stats, "cron", hour=0, minute=40)
+    scheduler.add_job(cash_flow, "cron", hour=0, minute=50)
 
-    scheduler.add_job(sentiment, "cron", hour=21, minute=0)
+    scheduler.add_job(sentiment, "cron", hour=0, minute=5)
 
     scheduler.start()
     try:
