@@ -9,7 +9,7 @@ from app_funcs.query import (
     get_top_earning_performers,
     get_gainers_n_losers,
     get_volume_per_day,
-    get_recent_sentiment
+    get_recent_sentiment,
 )
 
 top_volume_stocks = get_rated_volume()
@@ -24,14 +24,16 @@ def format_datetime(dt_str):
     dt = datetime.strptime(str(dt_str), "%Y-%m-%d %H:%M:%S")
     return dt.strftime("%B %d, %Y %I:%M %p")
 
+
 def get_sentiment_emoji(score):
     if score > 0.25:
-        return "🔥" 
+        return "🔥"
     elif score <= 0:
-        return "💩"  
+        return "💩"
     else:
-        return "" 
-    
+        return ""
+
+
 def display_gainers_volumers_card(stock):
     st.markdown(
         f"""
@@ -166,20 +168,19 @@ def home_page():
     st.markdown(card_style, unsafe_allow_html=True)
 
     with st.expander("By Volume"):
-        for _, row in top_volume_stocks.iterrows(): 
-            
-                       
+        for _, row in top_volume_stocks.iterrows():
+
             stock = {
                 "name": row["ticker"],
                 "volume": row["volume"],
                 "close": row["close"],
                 "updated_on": row["updated_on"],
             }
-            
+
             latest_sentiment = get_recent_sentiment(stock["name"])
-            value =(latest_sentiment["sentiment"].iloc[0])
+            value = latest_sentiment["sentiment"].iloc[0]
             emoji = get_sentiment_emoji(value)
-        
+
             display_volume_card(stock, emoji)
 
     with st.expander("Forecasted"):
@@ -191,7 +192,7 @@ def home_page():
                 "updated_time": row["updated_time"],
             }
             latest_sentiment = get_recent_sentiment(stock["ticker"])
-            value =(latest_sentiment["sentiment"].iloc[0])
+            value = latest_sentiment["sentiment"].iloc[0]
             emoji = get_sentiment_emoji(value)
             display_forecast_card(stock, emoji)
 
@@ -204,12 +205,12 @@ def home_page():
                 "earnings_growth_percentage": row["earnings_growth_percentage"],
             }
             latest_sentiment = get_recent_sentiment(stock["ticker"])
-            value =(latest_sentiment["sentiment"].iloc[0])
+            value = latest_sentiment["sentiment"].iloc[0]
             emoji = get_sentiment_emoji(value)
             display_earning_card(stock, emoji)
 
-    st.header("Biggest Gainers and Losers 🚀")
-    
+    st.header("Biggest Gainers and Actively Traded 🚀")
+
     col1, col2 = st.columns(2)
     with col1:
         st.subheader("Top Gainers")
