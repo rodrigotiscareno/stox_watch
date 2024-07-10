@@ -153,3 +153,43 @@ def get_top_earning_performers(limit=5):
     )
     params = {"quarters": quarters, "limit": limit}
     return pd.read_sql(query, engine, params=params)
+
+def get_forecasted_ticker_price(ticker):
+    engine = connect()
+    query = f"""
+    SELECT ticker, date, forecasted_price
+    FROM ticker_forecasted_prices
+    WHERE ticker = '{ticker}'
+    LIMIT 100;
+    """
+    return pd.read_sql(query, engine)
+
+def get_sentiment(ticker):
+    engine = connect()
+    query = f"""
+    SELECT ticker, sentiment, time_published
+    FROM sentiment
+    WHERE ticker = '{ticker}'
+    ORDER BY time_published DESC;
+    """
+    return pd.read_sql(query, engine)
+
+def get_recent_sentiment(ticker):
+    engine = connect()
+    query = f"""
+    SELECT ticker, sentiment
+    FROM sentiment
+    WHERE ticker = '{ticker}'
+    ORDER BY time_published DESC
+    LIMIT 1;
+    """
+    return pd.read_sql(query, engine)
+
+def get_ticker_info(ticker):
+    engine = connect()
+    query = f"""
+    SELECT ticker, address1 ,city, country, website, industry
+    FROM ticker_information
+    WHERE ticker = '{ticker}';
+    """
+    return pd.read_sql(query, engine)

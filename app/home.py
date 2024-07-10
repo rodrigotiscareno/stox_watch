@@ -9,6 +9,7 @@ from app_funcs.query import (
     get_top_earning_performers,
     get_gainers_n_losers,
     get_volume_per_day,
+    get_recent_sentiment
 )
 
 top_volume_stocks = get_rated_volume()
@@ -23,7 +24,14 @@ def format_datetime(dt_str):
     dt = datetime.strptime(str(dt_str), "%Y-%m-%d %H:%M:%S")
     return dt.strftime("%B %d, %Y %I:%M %p")
 
-
+def get_sentiment_emoji(score):
+    if score > 0.25:
+        return "🔥" 
+    elif score <= 0:
+        return "💩"  
+    else:
+        return "" 
+    
 def display_gainers_volumers_card(stock):
     st.markdown(
         f"""
@@ -59,13 +67,13 @@ def display_stock_card(stock):
     )
 
 
-def display_volume_card(stock):
+def display_volume_card(stock, emoji):
     formatted_datetime = format_datetime(stock["updated_on"])
     st.markdown(
         f"""
         <div class="card">
             <div class="card-content">
-                <div class="card-title">{stock['name']}</div>
+                <div class="card-title">{stock['name']}{emoji}</div>
                 <div class="card-text"><strong>Volume: </strong>{stock['volume']:,}</div>
                 <div class="card-text"><strong>Price: </strong>${stock['close']:.2f}</div>
                 <div class="card-text"><strong>Last Updated On: </strong>{formatted_datetime}</div>
@@ -76,13 +84,13 @@ def display_volume_card(stock):
     )
 
 
-def display_forecast_card(stock):
+def display_forecast_card(stock, emoji):
     formatted_datetime = format_datetime(stock["updated_time"])
     st.markdown(
         f"""
         <div class="card">
             <div class="card-content">
-                <div class="card-title">{stock['ticker']}</div>
+                <div class="card-title">{stock['ticker']}{emoji}</div>
                 <div class="card-text"><strong>Return Factor: </strong>{stock['return_factor']:.2f}</div>
                 <div class="card-text"><strong>Last Updated On: </strong>{formatted_datetime}</div>
             </div>
@@ -92,12 +100,12 @@ def display_forecast_card(stock):
     )
 
 
-def display_earning_card(stock):
+def display_earning_card(stock, emoji):
     st.markdown(
         f"""
         <div class="card">
             <div class="card-content">
-                <div class="card-title">{stock['ticker']}</div>
+                <div class="card-title">{stock['ticker']}{emoji}</div>
                 <div class="card-text"><strong>Current Quarter: </strong>{stock['current_quarter']}</div>
                 <div class="card-text"><strong>Previous Quarter: </strong>{stock['previous_quarter']}</div>
                 <div class="card-text"><strong>Earnings Growth Percentage: </strong>{stock['earnings_growth_percentage']:.2f}%</div>
@@ -158,14 +166,21 @@ def home_page():
     st.markdown(card_style, unsafe_allow_html=True)
 
     with st.expander("By Volume"):
-        for _, row in top_volume_stocks.iterrows():
+        for _, row in top_volume_stocks.iterrows(): 
+            
+                       
             stock = {
                 "name": row["ticker"],
                 "volume": row["volume"],
                 "close": row["close"],
                 "updated_on": row["updated_on"],
             }
-            display_volume_card(stock)
+            
+            latest_sentiment = get_recent_sentiment(stock["name"])
+            value =(latest_sentiment["sentiment"].iloc[0])
+            emoji = get_sentiment_emoji(value)
+        
+            display_volume_card(stock, emoji)
 
     with st.expander("Forecasted"):
         st.write("** Based on a 1-year forecast.")
@@ -175,7 +190,10 @@ def home_page():
                 "return_factor": row["return_factor"],
                 "updated_time": row["updated_time"],
             }
-            display_forecast_card(stock)
+            latest_sentiment = get_recent_sentiment(stock["ticker"])
+            value =(latest_sentiment["sentiment"].iloc[0])
+            emoji = get_sentiment_emoji(value)
+            display_forecast_card(stock, emoji)
 
     with st.expander("Top Earnings Performers"):
         for _, row in top_earning_performers.iterrows():
@@ -185,9 +203,13 @@ def home_page():
                 "previous_quarter": row["previous_quarter"],
                 "earnings_growth_percentage": row["earnings_growth_percentage"],
             }
-            display_earning_card(stock)
+            latest_sentiment = get_recent_sentiment(stock["ticker"])
+            value =(latest_sentiment["sentiment"].iloc[0])
+            emoji = get_sentiment_emoji(value)
+            display_earning_card(stock, emoji)
 
     st.header("Biggest Gainers and Losers 🚀")
+    
     col1, col2 = st.columns(2)
     with col1:
         st.subheader("Top Gainers")
