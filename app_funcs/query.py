@@ -199,3 +199,43 @@ def get_ticker_info(ticker):
     WHERE ticker = '{ticker}';
     """
     return pd.read_sql(query, engine)
+
+def get_pipeline_all():
+    engine = connect()
+    query = f"""
+    SELECT *
+    FROM monitoring
+    WHERE DATE(date_time) = CURDATE();
+    """
+    return pd.read_sql(query, engine)
+
+def get_pipeline_start():
+    engine = connect()
+    query = f"""
+    SELECT *
+    FROM monitoring
+    WHERE DATE(date_time) = CURDATE()
+    AND pipeline_status = 'START';
+    """
+    return pd.read_sql(query, engine)
+
+def get_pipeline_fetching():
+    engine = connect()
+    query = f"""
+    SELECT *
+    FROM monitoring
+    WHERE DATE(date_time) = CURDATE()
+    AND pipeline_status = 'FETCHING';
+    """
+    return pd.read_sql(query, engine)
+
+def get_pipeline_finish():
+    engine = connect()
+    query = f"""
+    SELECT *
+    FROM monitoring
+    WHERE DATE(date_time) = CURDATE()
+    AND pipeline_status = 'FINISH';
+    """
+    return pd.read_sql(query, engine)
+     

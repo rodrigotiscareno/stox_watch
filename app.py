@@ -9,6 +9,7 @@ from streamlit_option_menu import option_menu
 from app.portfolio import portfolio_page
 from app.home import home_page
 from app.browse import browse_page
+from app.monitoring import monitoring_page
 
 
 def local_css(file_name):
@@ -32,7 +33,7 @@ if "display_recommendation_details" not in st.session_state:
 with st.sidebar:
     selected = option_menu(
         menu_title="Navigate",
-        options=["Home", "Portfolio", "Browse"],
+        options=["Home", "Portfolio", "Browse", "Monitoring"],
     )
 
     if selected == "Home":
@@ -41,6 +42,8 @@ with st.sidebar:
         st.session_state.page = "Portfolio"
     elif selected == "Browse":
         st.session_state.page = "Browse"
+    elif selected == "Monitoring":
+        st.session_state.page = "Monitoring"
          
 if st.session_state.page == "Home":
     home_page()
@@ -48,4 +51,5 @@ elif st.session_state.page == "Portfolio":
     portfolio_page()
 elif st.session_state.page == "Browse":
     browse_page() 
-    
+elif st.session_state.page == "Monitoring":
+    monitoring_page()   

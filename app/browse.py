@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import altair as alt
 
-from scripts.utility import get_tickers
+from scripts.utility import get_tickers, read_constituents
 
 from app_funcs.query import get_forecasted_ticker_price, get_sentiment, get_ticker_info
 
@@ -27,7 +27,8 @@ def display_info_card(info):
 def browse_page():
     st.title("Browse Stocks")
 
-    tickers = get_tickers()
+    tickers = read_constituents()
+    print(tickers)
     selected_ticker = st.selectbox("Select a stock", tickers)
     info_df = get_ticker_info(selected_ticker)
 
