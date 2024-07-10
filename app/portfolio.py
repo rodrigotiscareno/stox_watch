@@ -8,17 +8,6 @@ def submit():
     st.session_state.display_recommendations = True
 
 
-def plot_data(df, stock_num):
-    plt.figure(figsize=(10, 6))
-    plt.plot(df["date"], df["price"], marker="o", linestyle="-", color="b")
-    plt.title(f"Date vs Price for Stock {stock_num}")
-    plt.xlabel("Date")
-    plt.ylabel("Price")
-    plt.grid(True)
-    plt.xticks(rotation=45)
-    st.pyplot(plt)
-
-
 def portfolio_page():
     st.title("Stock Portfolio Recommendations")
     budget = st.number_input(
