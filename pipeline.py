@@ -32,13 +32,13 @@ def email_notifier(full_coverage=False):
         def wrapper(*args, **kwargs):
             process_text = f"Starting {func.__name__}"
             status = "START"
-            logging(process_text, status)
-            
+            logging.log_monitor_to_sql(process_text, status)
+
             try:
                 process_text = f"Running {func.__name__}"
                 status = "FETCHING"
                 logging.log_monitor_to_sql(process_text, status)
-                
+
                 result = func(*args, **kwargs)
                 if full_coverage:
                     notification(
@@ -57,7 +57,7 @@ def email_notifier(full_coverage=False):
                 process_text = f"Failed {func.__name__} with error: {e}"
                 status = "ERROR"
                 logging.log_monitor_to_sql(process_text, status)
-                
+
                 raise
 
         return wrapper
@@ -154,7 +154,7 @@ def sentiment():
 
 if __name__ == "__main__":
 
-    scheduler.add_job(ticker_prices, "cron", hour=4, minute=5)
+    scheduler.add_job(ticker_prices, "cron", hour=10, minute=36)
     scheduler.add_job(price_forecast, "cron", hour=5, minute=0)
     scheduler.add_job(covariance, "cron", hour=5, minute=30)
 
