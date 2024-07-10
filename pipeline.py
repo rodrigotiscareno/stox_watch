@@ -45,9 +45,9 @@ def email_notifier(full_coverage=False):
                         subject=f"Task {func.__name__} completed",
                         sentences=f"The task {func.__name__} has been completed successfully.",
                     )
-                    process_text = f"Completed {func.__name__}"
-                    status = "FINISH"
-                    logging.log_monitor_to_sql(process_text, status)
+                process_text = f"Completed {func.__name__}"
+                status = "FINISH"
+                logging.log_monitor_to_sql(process_text, status)
                 return result
             except Exception as e:
                 notification(
