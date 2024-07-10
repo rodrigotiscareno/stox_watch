@@ -154,7 +154,7 @@ def sentiment():
 
 if __name__ == "__main__":
 
-    scheduler.add_job(ticker_prices, "cron", hour=10, minute=36)
+    scheduler.add_job(ticker_prices, "cron", hour=4, minute=0)
     scheduler.add_job(price_forecast, "cron", hour=5, minute=0)
     scheduler.add_job(covariance, "cron", hour=5, minute=30)
 
