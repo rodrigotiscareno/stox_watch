@@ -72,107 +72,108 @@ job_defaults = {"max_instances": 5}
 scheduler = BackgroundScheduler(executors=executors, job_defaults=job_defaults)
 
 
-@email_notifier(full_coverage=False)
+@email_notifier(full_coverage=True)
 def balance_sheets():
     fetch_and_save_bal_sht()
 
 
-@email_notifier(full_coverage=False)
+@email_notifier(full_coverage=True)
 def cash_flow():
     fetch_and_save_cash_flow()
 
 
-@email_notifier(full_coverage=False)
+@email_notifier(full_coverage=True)
 def income_statements():
     fetch_and_save_income_statements()
 
 
-@email_notifier(full_coverage=False)
+@email_notifier(full_coverage=True)
 def top_n_stats():
     fetch_and_save_top_glm()
 
 
-@email_notifier(full_coverage=False)
+@email_notifier(full_coverage=True)
 def insider_purchases():
     fetch_and_save_insider_purchases()
 
 
-@email_notifier(full_coverage=False)
+@email_notifier(full_coverage=True)
 def ticker_prices():
     fetch_and_save_ticker_prices()
 
 
-@email_notifier(full_coverage=False)
+@email_notifier(full_coverage=True)
 def recs():
     fetch_and_save_recommendations()
 
 
-@email_notifier(full_coverage=False)
+@email_notifier(full_coverage=True)
 def earnings_trends():
     fetch_and_save_earnings_trends()
 
 
-@email_notifier(full_coverage=False)
+@email_notifier(full_coverage=True)
 def earnings():
     fetch_and_save_earnings()
 
 
-@email_notifier(full_coverage=False)
+@email_notifier(full_coverage=True)
 def financial_data():
     fetch_and_save_financial_data()
 
 
-@email_notifier(full_coverage=False)
+@email_notifier(full_coverage=True)
 def key_stats():
     fetch_and_save_key_stats()
 
 
-@email_notifier(full_coverage=False)
+@email_notifier(full_coverage=True)
 def summary_detail():
     fetch_and_save_summary_detail()
 
 
-@email_notifier(full_coverage=False)
+@email_notifier(full_coverage=True)
 def price_forecast():
     forecast_prices()
 
 
-@email_notifier(full_coverage=False)
+@email_notifier(full_coverage=True)
 def covariance():
     calculate_covariance()
 
 
-@email_notifier(full_coverage=False)
+@email_notifier(full_coverage=True)
 def optimize_portfolio():
     register_recommendations(save_df=True)
 
 
-@email_notifier(full_coverage=False)
+@email_notifier(full_coverage=True)
 def sentiment():
     fetch_and_save_sentiment()
 
 
 if __name__ == "__main__":
 
-    scheduler.add_job(ticker_prices, "cron", hour=23, minute=30)
-    scheduler.add_job(price_forecast, "cron", hour=23, minute=40)
-    scheduler.add_job(covariance, "cron", hour=23, minute=50)
+    scheduler.add_job
 
-    scheduler.add_job(optimize_portfolio, "cron", hour=23, minute=0)
+    scheduler.add_job(ticker_prices, "cron", hour=19, minute=10)
+    scheduler.add_job(price_forecast, "cron", hour=19, minute=20)
+    scheduler.add_job(covariance, "cron", hour=19, minute=30)
 
-    scheduler.add_job(financial_data, "cron", hour=23, minute=10)
-    scheduler.add_job(summary_detail, "cron", hour=23, minute=20)
-    scheduler.add_job(recs, "cron", hour=23, minute=30)
-    scheduler.add_job(top_n_stats, "cron", hour=23, minute=40)
-    scheduler.add_job(insider_purchases, "cron", hour=23, minute=50)
-    scheduler.add_job(income_statements, "cron", hour=0, minute=0)
-    scheduler.add_job(earnings_trends, "cron", hour=0, minute=10)
-    scheduler.add_job(earnings, "cron", hour=0, minute=20)
-    scheduler.add_job(balance_sheets, "cron", hour=0, minute=30)
-    scheduler.add_job(key_stats, "cron", hour=0, minute=40)
-    scheduler.add_job(cash_flow, "cron", hour=0, minute=50)
+    scheduler.add_job(optimize_portfolio, "cron", hour=19, minute=40)
 
-    scheduler.add_job(sentiment, "cron", hour=0, minute=5)
+    scheduler.add_job(financial_data, "cron", hour=20, minute=0)
+    scheduler.add_job(summary_detail, "cron", hour=20, minute=10)
+    scheduler.add_job(recs, "cron", hour=20, minute=20)
+    scheduler.add_job(top_n_stats, "cron", hour=20, minute=30)
+    scheduler.add_job(insider_purchases, "cron", hour=20, minute=40)
+    scheduler.add_job(income_statements, "cron", hour=20, minute=50)
+    scheduler.add_job(earnings_trends, "cron", hour=21, minute=0)
+    scheduler.add_job(earnings, "cron", hour=21, minute=10)
+    scheduler.add_job(balance_sheets, "cron", hour=21, minute=20)
+    scheduler.add_job(key_stats, "cron", hour=21, minute=30)
+    scheduler.add_job(cash_flow, "cron", hour=21, minute=40)
+    scheduler.add_job(sentiment, "cron", hour=21, minute=50)
 
     scheduler.start()
     try:
