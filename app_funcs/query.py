@@ -258,3 +258,14 @@ def get_pipeline_error():
     ORDER BY date_time DESC;
     """
     return pd.read_sql(query, engine)
+
+
+def get_recs_aggregated(ticker):
+    engine = connect()
+    query = f"""
+    SELECT ticker, tograde, COUNT(*) AS count
+    FROM recs
+    GROUP BY ticker, tograde
+    HAVING ticker= '{ticker}'
+    """
+    return pd.read_sql(query, engine)

@@ -5,7 +5,12 @@ import altair as alt
 
 from scripts.utility import get_tickers
 
-from app_funcs.query import get_forecasted_ticker_price, get_sentiment, get_ticker_info
+from app_funcs.query import (
+    get_forecasted_ticker_price,
+    get_sentiment,
+    get_ticker_info,
+    get_recs_aggregated,
+)
 
 
 def display_info_card(info):
@@ -41,6 +46,30 @@ def browse_page():
         "industry": info_df["industry"].to_string()[2:],
     }
     display_info_card(info)
+
+    st.markdown("")
+
+    st.header("Recommendation Distribution")
+
+    recs = get_recs_aggregated(ticker=selected_ticker)
+    ticker_data = recs[recs["ticker"] == selected_ticker]
+
+    chart = (
+        alt.Chart(ticker_data)
+        .mark_bar()
+        .encode(
+            x=alt.X("tograde", sort="-y", title="Recommendation"),
+            y=alt.Y("count", title="Count"),
+            tooltip=["tograde", "count"],
+        )
+        .properties(
+            width=800,
+            height=400,
+            title=f"Recommendation Distribution for {selected_ticker}",
+        )
+    )
+
+    st.altair_chart(chart, use_container_width=True)
 
     st.markdown("")
 
