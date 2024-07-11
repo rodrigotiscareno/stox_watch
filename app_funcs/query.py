@@ -205,7 +205,7 @@ def get_pipeline_all():
     query = f"""
     SELECT *
     FROM monitoring
-    WHERE DATE(date_time) = CURDATE();
+    WHERE date_time >= DATE_SUB(NOW(), INTERVAL 2 DAY);
     """
     return pd.read_sql(query, engine)
 
@@ -214,7 +214,7 @@ def get_pipeline_start():
     query = f"""
     SELECT *
     FROM monitoring
-    WHERE DATE(date_time) = CURDATE()
+    WHERE date_time >= DATE_SUB(NOW(), INTERVAL 2 DAY)
     AND pipeline_status = 'START';
     """
     return pd.read_sql(query, engine)
@@ -224,7 +224,7 @@ def get_pipeline_fetching():
     query = f"""
     SELECT *
     FROM monitoring
-    WHERE DATE(date_time) = CURDATE()
+    WHERE date_time >= DATE_SUB(NOW(), INTERVAL 2 DAY)
     AND pipeline_status = 'FETCHING';
     """
     return pd.read_sql(query, engine)
@@ -234,8 +234,17 @@ def get_pipeline_finish():
     query = f"""
     SELECT *
     FROM monitoring
-    WHERE DATE(date_time) = CURDATE()
+    WHERE date_time >= DATE_SUB(NOW(), INTERVAL 2 DAY)
     AND pipeline_status = 'FINISH';
     """
     return pd.read_sql(query, engine)
-     
+
+def get_pipeline_error():
+    engine = connect()
+    query = f"""
+    SELECT *
+    FROM monitoring
+    WHERE date_time >= DATE_SUB(NOW(), INTERVAL 2 DAY)
+    AND pipeline_status = 'ERROR';
+    """
+    return pd.read_sql(query, engine)

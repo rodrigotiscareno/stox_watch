@@ -5,15 +5,17 @@ import altair as alt
 
 from scripts.utility import get_tickers, read_constituents
 
-from app_funcs.query import get_pipeline_all, get_pipeline_start, get_pipeline_fetching, get_pipeline_finish
+from app_funcs.query import get_pipeline_all, get_pipeline_start, get_pipeline_fetching, get_pipeline_finish, get_pipeline_error
 
 def print_in_white_block(text, status):
     if status == "START":
         colour = "#5bc0eb"
     elif status == "FETCHING":
         colour = "#fde74c"
-    else:
+    elif status == "FINISH":
         colour = "#9bc53d"
+    else:
+        colour = "#FF6865"
 
     block_style = f"""
     <div style="
@@ -35,7 +37,7 @@ def monitoring_page():
     st.title("Monitoring")
     st.write("View pipelines and filter by status")
     
-    filter = st.selectbox("Filter by Pipeline Status", ["All", "START", "FETCHING", "FINISH"])
+    filter = st.selectbox("Filter by Pipeline Status", ["All", "START", "FETCHING", "FINISH", "ERROR"])
 
     if filter == "All":     
         df = get_pipeline_all()
@@ -46,10 +48,16 @@ def monitoring_page():
     elif filter == "FETCHING":
         df = get_pipeline_fetching()
         header = "FETCHING Pipeline Processes"
-    else:
+    elif filter == "FINISH":
         df = get_pipeline_finish()
         header = "FINISH Pipeline Processes"
+    else:
+        df = get_pipeline_error()
+        header = "ERROR Pipeline Processes"
 
+
+
+    print(df)
     
     st.subheader(header)
 
