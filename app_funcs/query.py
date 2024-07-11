@@ -200,14 +200,17 @@ def get_ticker_info(ticker):
     """
     return pd.read_sql(query, engine)
 
+
 def get_pipeline_all():
     engine = connect()
     query = f"""
     SELECT *
     FROM monitoring
-    WHERE date_time >= DATE_SUB(NOW(), INTERVAL 2 DAY);
+    WHERE date_time >= DATE_SUB(NOW(), INTERVAL 2 DAY)
+    ORDER BY date_time DESC;
     """
     return pd.read_sql(query, engine)
+
 
 def get_pipeline_start():
     engine = connect()
@@ -215,9 +218,11 @@ def get_pipeline_start():
     SELECT *
     FROM monitoring
     WHERE date_time >= DATE_SUB(NOW(), INTERVAL 2 DAY)
-    AND pipeline_status = 'START';
+    AND pipeline_status = 'START'
+    ORDER BY date_time DESC;
     """
     return pd.read_sql(query, engine)
+
 
 def get_pipeline_fetching():
     engine = connect()
@@ -225,9 +230,11 @@ def get_pipeline_fetching():
     SELECT *
     FROM monitoring
     WHERE date_time >= DATE_SUB(NOW(), INTERVAL 2 DAY)
-    AND pipeline_status = 'FETCHING';
+    AND pipeline_status = 'FETCHING'
+    ORDER BY date_time DESC;
     """
     return pd.read_sql(query, engine)
+
 
 def get_pipeline_finish():
     engine = connect()
@@ -235,9 +242,11 @@ def get_pipeline_finish():
     SELECT *
     FROM monitoring
     WHERE date_time >= DATE_SUB(NOW(), INTERVAL 2 DAY)
-    AND pipeline_status = 'FINISH';
+    AND pipeline_status = 'FINISH'
+    ORDER BY date_time DESC;
     """
     return pd.read_sql(query, engine)
+
 
 def get_pipeline_error():
     engine = connect()
@@ -245,6 +254,7 @@ def get_pipeline_error():
     SELECT *
     FROM monitoring
     WHERE date_time >= DATE_SUB(NOW(), INTERVAL 2 DAY)
-    AND pipeline_status = 'ERROR';
+    AND pipeline_status = 'ERROR'
+    ORDER BY date_time DESC;
     """
     return pd.read_sql(query, engine)

@@ -1,11 +1,13 @@
 import streamlit as st
-import matplotlib.pyplot as plt
-import pandas as pd
-import altair as alt
 
-from scripts.utility import get_tickers, read_constituents
+from app_funcs.query import (
+    get_pipeline_all,
+    get_pipeline_start,
+    get_pipeline_fetching,
+    get_pipeline_finish,
+    get_pipeline_error,
+)
 
-from app_funcs.query import get_pipeline_all, get_pipeline_start, get_pipeline_fetching, get_pipeline_finish, get_pipeline_error
 
 def print_in_white_block(text, status):
     if status == "START":
@@ -33,13 +35,16 @@ def print_in_white_block(text, status):
     """
     st.markdown(block_style, unsafe_allow_html=True)
 
+
 def monitoring_page():
     st.title("Monitoring")
-    st.write("View pipelines and filter by status")
-    
-    filter = st.selectbox("Filter by Pipeline Status", ["All", "START", "FETCHING", "FINISH", "ERROR"])
+    st.write("View the last two pipeline runs and filter by status.")
 
-    if filter == "All":     
+    filter = st.selectbox(
+        "Filter by Pipeline Status", ["All", "START", "FETCHING", "FINISH", "ERROR"]
+    )
+
+    if filter == "All":
         df = get_pipeline_all()
         header = "All Pipeline Processes"
     elif filter == "START":
@@ -55,12 +60,8 @@ def monitoring_page():
         df = get_pipeline_error()
         header = "ERROR Pipeline Processes"
 
-
-
-    print(df)
-    
     st.subheader(header)
 
-    for index, row in df.iterrows():
+    for _, row in df.iterrows():
         formatted_str = f"{row['process']} pipeline @ {row['date_time']}"
-        print_in_white_block(formatted_str, row['pipeline_status'])
+        print_in_white_block(formatted_str, row["pipeline_status"])

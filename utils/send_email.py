@@ -4,7 +4,15 @@ import smtplib
 
 
 def send_email(email_sender, email_password, email_receivers, subject, sentences):
-    body = f"This is sent from Python.\n{sentences}"
+    body = f"""
+    <html>
+    <body>
+        <p><strong>STOX Watch ALERT</strong></p>
+        <p>{sentences}</p><br>
+        <p>Contact <a href="mailto:msci436dssproject@gmail.com">msci436dssproject@gmail.com</a> for questions.</p>
+    </body>
+    </html>
+    """
 
     context = ssl.create_default_context()
     context.check_hostname = False
@@ -14,8 +22,8 @@ def send_email(email_sender, email_password, email_receivers, subject, sentences
         em = EmailMessage()
         em["From"] = email_sender
         em["To"] = email_receiver
-        em["Subject"] = subject
-        em.set_content(body)
+        em["Subject"] = f"Stox Watch ALERT: {subject}"
+        em.set_content(body, subtype="html")
 
         try:
             with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as smtp:
