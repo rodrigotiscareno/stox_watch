@@ -107,7 +107,7 @@ def display_earning_card(stock, emoji):
         f"""
         <div class="card">
             <div class="card-content">
-                <div class="card-title">{stock['ticker']}{emoji}</div>
+                <div class="card-title">{stock['ticker']} {emoji}</div>
                 <div class="card-text"><strong>Current Quarter: </strong>{stock['current_quarter']}</div>
                 <div class="card-text"><strong>Previous Quarter: </strong>{stock['previous_quarter']}</div>
                 <div class="card-text"><strong>Earnings Growth Percentage: </strong>{stock['earnings_growth_percentage']:.2f}%</div>
