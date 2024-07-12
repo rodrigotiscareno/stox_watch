@@ -10,6 +10,7 @@ from app.portfolio import portfolio_page
 from app.home import home_page
 from app.browse import browse_page
 from app.monitoring import monitoring_page
+import pymysql
 
 
 def local_css(file_name):
@@ -44,12 +45,12 @@ with st.sidebar:
         st.session_state.page = "Browse"
     elif selected == "Monitoring":
         st.session_state.page = "Monitoring"
-         
+
 if st.session_state.page == "Home":
     home_page()
 elif st.session_state.page == "Portfolio":
     portfolio_page()
 elif st.session_state.page == "Browse":
-    browse_page() 
+    browse_page()
 elif st.session_state.page == "Monitoring":
-    monitoring_page()   
+    monitoring_page()
