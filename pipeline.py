@@ -72,82 +72,82 @@ job_defaults = {"max_instances": 5}
 scheduler = BackgroundScheduler(executors=executors, job_defaults=job_defaults)
 
 
-@email_notifier(full_coverage=True)
+@email_notifier(full_coverage=False)
 def balance_sheets():
     fetch_and_save_bal_sht()
 
 
-@email_notifier(full_coverage=True)
+@email_notifier(full_coverage=False)
 def cash_flow():
     fetch_and_save_cash_flow()
 
 
-@email_notifier(full_coverage=True)
+@email_notifier(full_coverage=False)
 def income_statements():
     fetch_and_save_income_statements()
 
 
-@email_notifier(full_coverage=True)
+@email_notifier(full_coverage=False)
 def top_n_stats():
     fetch_and_save_top_glm()
 
 
-@email_notifier(full_coverage=True)
+@email_notifier(full_coverage=False)
 def insider_purchases():
     fetch_and_save_insider_purchases()
 
 
-@email_notifier(full_coverage=True)
+@email_notifier(full_coverage=False)
 def ticker_prices():
     fetch_and_save_ticker_prices()
 
 
-@email_notifier(full_coverage=True)
+@email_notifier(full_coverage=False)
 def recs():
     fetch_and_save_recommendations()
 
 
-@email_notifier(full_coverage=True)
+@email_notifier(full_coverage=False)
 def earnings_trends():
     fetch_and_save_earnings_trends()
 
 
-@email_notifier(full_coverage=True)
+@email_notifier(full_coverage=False)
 def earnings():
     fetch_and_save_earnings()
 
 
-@email_notifier(full_coverage=True)
+@email_notifier(full_coverage=False)
 def financial_data():
     fetch_and_save_financial_data()
 
 
-@email_notifier(full_coverage=True)
+@email_notifier(full_coverage=False)
 def key_stats():
     fetch_and_save_key_stats()
 
 
-@email_notifier(full_coverage=True)
+@email_notifier(full_coverage=False)
 def summary_detail():
     fetch_and_save_summary_detail()
 
 
-@email_notifier(full_coverage=True)
+@email_notifier(full_coverage=False)
 def price_forecast():
     forecast_prices()
 
 
-@email_notifier(full_coverage=True)
+@email_notifier(full_coverage=False)
 def covariance():
     calculate_covariance()
 
 
-@email_notifier(full_coverage=True)
+@email_notifier(full_coverage=False)
 def optimize_portfolio():
     register_recommendations(save_df=True)
 
 
-@email_notifier(full_coverage=True)
+@email_notifier(full_coverage=False)
 def sentiment():
     fetch_and_save_sentiment()
 
