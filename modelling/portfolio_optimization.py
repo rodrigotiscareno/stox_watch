@@ -5,11 +5,20 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from utils.get_data import fetch_data
 from utils.parse_csv import load_df_to_sql
 import numpy as np
-from gurobipy import Model, GRB, quicksum
+from gurobipy import Model, GRB, quicksum, Env
 import pandas as pd
 from datetime import datetime
 import uuid
+from dotenv import load_dotenv
 
+load_dotenv()
+
+params = {
+    "WLSACCESSID": os.getenv("WLSACCESSID"),
+    "WLSSECRET": os.getenv("WLSSECRET"),
+    "LICENSEID": int(os.getenv("LICENSEID")),
+}
+env = Env(params=params)
 
 M = sys.maxsize
 
@@ -108,7 +117,7 @@ def main(
     product_matrix = get_industry_matrix()
     covariance = get_covariance()
 
-    m = Model("MSCI 436 Investment Portfolio Optimization")
+    m = Model("MSCI 436 Investment Portfolio Optimization", env=env)
 
     x = m.addVars(NUM_COMPANIES, lb=0, name="x")
     y = m.addVars(NUM_COMPANIES, vtype=GRB.BINARY, name="y")
@@ -200,6 +209,6 @@ def main(
 
 
 if __name__ == "__main__":
-    results_df = main(save_df=True)
+    results_df = main(save_df=False)
     if results_df is not None:
         print(results_df)
